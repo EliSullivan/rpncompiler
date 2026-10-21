@@ -27,6 +27,12 @@ int main(int argc, char *argv[]) {
         if (!out) { perror(outname); continue; }
 
         //prologue
+        fprintf(out, ".text\n");
+        fprintf(out, ".global%s\n", name);
+        fprintf(out, "%s:\n", name);
+        fprintf(out, "pushl %%ebp\n");
+        fprintf(out, "movl %%esp, %%ebp");
+        fprintf(out, "pushl %%ecx");
 
         char *tok;
         while ((tok = strtok(NULL, " \t\n")) != NULL) {
@@ -57,12 +63,14 @@ int main(int argc, char *argv[]) {
 
             fprintf(out, "pushl %%eax\n");
         } else if (isalpha((uint8_t)tok[0]) && tok[1] == '\0'){
-            fprintf(out, "pushl")
+            // 0 is old ebp, 4 is return address, 8 starts variables
+            fprintf(out, "pushl %d(%%ebp)\n", 8 + 4 * (tok[0] - 'a'));
         }
-
+    
         //epilogue
 
         fclose(out);
+    }
     }
 
     fclose(in);
