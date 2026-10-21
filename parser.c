@@ -29,11 +29,11 @@ int main(int argc, char *argv[]) {
 
         //prologue
         fprintf(out, ".text\n");
-        fprintf(out, ".global%s\n", name);
+        fprintf(out, ".global\n");
         fprintf(out, "%s:\n", name);
         fprintf(out, "pushl %%ebp\n");
-        fprintf(out, "movl %%esp, %%ebp");
-        fprintf(out, "pushl %%ecx");
+        fprintf(out, "movl %%esp, %%ebp\n");
+        fprintf(out, "pushl %%ecx\n");
 
         char *tok;
         while ((tok = strtok(NULL, " \t\n")) != NULL) {
