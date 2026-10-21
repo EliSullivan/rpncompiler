@@ -56,8 +56,8 @@ int main(int argc, char *argv[]) {
             }
 
             fprintf(out, "pushl %%eax\n");
-        } else if (isalpha((uint8_t)tok[0])){
-            //letter
+        } else if (isalpha((uint8_t)tok[0]) && tok[1] == '\0'){
+            fprintf(out, "pushl")
         }
 
         //epilogue
