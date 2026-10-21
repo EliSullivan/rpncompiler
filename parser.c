@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <ctype.h>
 
 int main(int argc, char *argv[]) {
 
@@ -68,7 +69,9 @@ int main(int argc, char *argv[]) {
         }
     
         //epilogue
-
+        fprintf(out, "popl %%eax\n");
+        fprintf(out, "popl %%ecx\n");
+        fprintf(out, "popl %%ebp\n");
         fclose(out);
     }
     }
