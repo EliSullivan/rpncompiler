@@ -15,6 +15,8 @@ int main(int argc, char *argv[]) {
 
     char line[1024];
     while (fgets(line, sizeof line, in)) {
+        char vars[26];
+        int var_count = 0;
         char *name = strtok(line, " \t\n");
         if (!name) continue;
 
@@ -33,7 +35,6 @@ int main(int argc, char *argv[]) {
         fprintf(out, "%s:\n", name);
         fprintf(out, "pushl %%ebp\n");
         fprintf(out, "movl %%esp, %%ebp\n");
-        fprintf(out, "pushl %%ecx\n");
 
         char *tok;
         while ((tok = strtok(NULL, " \t\n")) != NULL) {
@@ -57,22 +58,33 @@ int main(int argc, char *argv[]) {
                         fprintf(out, "imull %%ecx, %%eax\n");
                         break;
                     }
-                    case '/' : {
-                        fprintf(out, "idivl %%ecx, %%eax\n");
-                    }
+                    case '/':
+                        fprintf(out, "movl %%eax, %%edx\n");
+                        fprintf(out, "sarl $31, %%edx\n");
+                        fprintf(out, "idivl %%ecx\n");
+                        break;
                 }
 
                 fprintf(out, "pushl %%eax\n");
-            } else if (isalpha((uint8_t)tok[0]) && tok[1] == '\0'){
-                // 0 is old ebp, 4 is return address, 8 starts variables
-                fprintf(out, "pushl %d(%%ebp)\n", 8 + 4 * (tok[0] - 'a'));
+            } else if (isalpha((uint8_t)tok[0]) && tok[1] == '\0') {
+                int idx = -1;
+                for (int i = 0; i < var_count; i++) {
+                    if (vars[i] == tok[0]) { 
+                        idx = i;
+                        break; 
+                    }
+                }
+                if (idx < 0) {
+                    idx = var_count;
+                    vars[var_count++] = tok[0];
+                }
+                fprintf(out, "pushl %d(%%ebp)\n", 8 + 4 * idx);
             }
     
         
         }
     //epilogue
         fprintf(out, "popl %%eax\n");
-        fprintf(out, "popl %%ecx\n");
         fprintf(out, "popl %%ebp\n");
         fprintf(out, "ret\n");
         fclose(out);
