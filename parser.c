@@ -33,7 +33,32 @@ int main(int argc, char *argv[]) {
             if (isdigit((uint8_t)tok[0]) || 
                         (tok[0] == '-' && isdigit((uint8_t)tok[1]))) {
                 fprintf(out, "pushl $%s\n", tok);
-        } else if
+        } else if (tok[1] == '\0' && strchr("+-*/", tok[0])) {
+            fprintf(out, "popl %%ecx\n");
+            fprintf(out, "popl %%eax\n");
+            
+            switch(tok[0]) {
+                case '+': {
+                    fprintf(out, "addl %ecx, %eax\n");
+                    break;
+                }
+                case '-': {
+                    fprintf(out, "subl %ecx, %eax\n");
+                    break;
+                }
+                case '*': {
+                    fprintf(out, "imull %ecx, %eax\n");
+                    break;
+                }
+                case '/' : {
+                    //divide
+                }
+            }
+
+            fprintf(out, "pushl %eax"\n);
+        } else if (isalpha((uint8_t)tok[0])){
+            //letter
+        }
 
         //epilogue
 
