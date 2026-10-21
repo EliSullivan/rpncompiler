@@ -6,5 +6,15 @@ LDFLAGS = -no-pie
 
 all: test1 test2
 
-clean: rm -f a.out
+parser: parser.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -o parser parser.c
+
+test1: parser
+	./gen test1.txt
+
+test2: parser
+	./parser test2.txt
+
+clean:
+	rm -f parser
 	rm -f *.s
