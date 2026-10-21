@@ -39,23 +39,23 @@ int main(int argc, char *argv[]) {
             
             switch(tok[0]) {
                 case '+': {
-                    fprintf(out, "addl %ecx, %eax\n");
+                    fprintf(out, "addl %%ecx, %%eax\n");
                     break;
                 }
                 case '-': {
-                    fprintf(out, "subl %ecx, %eax\n");
+                    fprintf(out, "subl %%ecx, %%eax\n");
                     break;
                 }
                 case '*': {
-                    fprintf(out, "imull %ecx, %eax\n");
+                    fprintf(out, "imull %%ecx, %%eax\n");
                     break;
                 }
                 case '/' : {
-                    //divide
+                    fprintf(out, "idivl %%ecx, %%eax\n");
                 }
             }
 
-            fprintf(out, "pushl %eax"\n);
+            fprintf(out, "pushl %%eax\n");
         } else if (isalpha((uint8_t)tok[0])){
             //letter
         }
