@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 int main(int argc, char *argv[]) {
 
@@ -29,8 +30,10 @@ int main(int argc, char *argv[]) {
 
         char *tok;
         while ((tok = strtok(NULL, " \t\n")) != NULL) {
-            
-        }
+            if (isdigit((uint8_t)tok[0]) || 
+                        (tok[0] == '-' && isdigit((uint8_t)tok[1]))) {
+                fprintf(out, "pushl $%s\n", tok);
+        } else if
 
         //epilogue
 
