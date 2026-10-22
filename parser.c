@@ -23,9 +23,13 @@ int main(int argc, char *argv[]) {
         if (!name) continue;
 
         char *colon = strtok(NULL, " \t\n");
-        if (!colon || strcmp(colon, ":") != 0)
+        if (!colon || strcmp(colon, ":") != 0) {
+            fprintf(stderr, "%s is not valid\n", name);
             continue;
+        }
 
+        int depth = 0;
+        bool failed = false;    
         char outname[256];
         snprintf(outname, sizeof outname, "%s.s", name);
         FILE *out = fopen(outname, "w");
@@ -43,10 +47,18 @@ int main(int argc, char *argv[]) {
             if (isdigit((uint8_t)tok[0]) || 
                         (tok[0] == '-' && isdigit((uint8_t)tok[1]))) {
                 fprintf(out, "pushl $%s\n", tok);
+                depth++;
             } else if (tok[1] == '\0' && strchr("+-*/", tok[0])) {
+                if (depth < 2) {
+                    fprintf(stderr, "%s is not valid\n", name);
+                    failed = true;
+                    break;
+                }
+                depth--;
+                
                 fprintf(out, "popl %%ecx\n");
                 fprintf(out, "popl %%eax\n");
-                
+
                 switch(tok[0]) {
                     case '+': {
                         fprintf(out, "addl %%ecx, %%eax\n");
@@ -81,15 +93,29 @@ int main(int argc, char *argv[]) {
                     vars[var_count++] = tok[0];
                 }
                 fprintf(out, "pushl %d(%%ebp)\n", 8 + 4 * idx);
+                depth++;
+            } else {
+                fprintf(stderr, "%s is not valid\n", name);
+                failed = true;
+                break;
             }
-    
-        
         }
-    //epilogue
-        fprintf(out, "popl %%eax\n");
-        fprintf(out, "popl %%ebp\n");
-        fprintf(out, "ret\n");
-        fclose(out);
+
+        if (!failed && depth != 1) {
+            fprintf(stderr, "%s is not valid\n", name);
+            failed = true;
+        }
+
+        //epilogue
+        if (!failed) {
+            fprintf(out, "popl %%eax\n");
+            fprintf(out, "popl %%ebp\n");
+            fprintf(out, "ret\n");
+            fclose(out);
+        } else {
+            fclose(out);
+            remove(outname);
+        }
     }
 
     fclose(in);
