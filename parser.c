@@ -50,15 +50,18 @@ int main(int argc, char *argv[]) {
                         (tok[0] == '-' && isdigit((uint8_t)tok[1]))) {
                 
                 //makes sure it's a valid number
-                int counter = 0;
+                int counter = 1;
                 while (tok[counter] != '\0') {
-                    if (isalpha((uint8_t)tok[counter])) {
+                    if (!isdigit((uint8_t)tok[counter])) {
                         fprintf(stderr, "%s is not valid\n", name);
                         failed = true;
                         break;
                     }
                     counter++;
                 }
+
+                if (failed)
+                    break;
 
                 fprintf(out, "pushl $%s\n", tok);
                 depth++;
