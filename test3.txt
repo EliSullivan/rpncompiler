@@ -1,0 +1,6 @@
+spaces   :   a    b   +   
+
+
+tab	:	a	b	*
+   lead : a 1 +
+nonl : a b +

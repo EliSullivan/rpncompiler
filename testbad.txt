@@ -1,0 +1,8 @@
+bad1 : a +
+bad2 : a b
+bad3 : a ^ b
+bad4 a b +
+bad5 :
+bad6 : 3abc
+bad7 : a b + )
+ok : a b +

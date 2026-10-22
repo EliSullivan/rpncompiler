@@ -1,2 +1,4 @@
 f : a b + c *
 g : 3 x x * * 2 x * - 7 +
+sub1 : a b -
+sub2 : b a -

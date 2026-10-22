@@ -1,0 +1,8 @@
+div1 : a b /
+div2 : 100 7 /
+mix : a 2 / b 3 * +
+neg : -5 a +
+neg2 : a -3 *
+big : 12345 678 *
+const : 42
+ident : x
