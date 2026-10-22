@@ -1,13 +1,14 @@
 # rpncompiler
 
 This program reads functions written in RPN and generates assembly code to 
-perform the operations. It separates each line of input into tokens delimited
-by spaces or tabs, then performs a different action for numbers, variables,
-and operators. The supported operators are +, -, *, /, and variables can be 
-any letter of the modern Latin alphabet. Numbers are expected to be integers.
-Variables from the expression (which become parameters for the function) are
-numbered in order of appearance. A separate assembly source code file is made
-for each function.
+perform the operations. It assumes the provided function name is valid in
+32bit assembly and that provided numbers fit in 32 bits. The program separates
+each line of input into tokens delimited by spaces or tabs, then performs a
+different action for numbers, variables, and operators. The supported operators
+are +, -, *, /, and variables can be any letter of the modern Latin alphabet.
+Numbers are expected to be integers. Variables from the expression (which
+become parameters for the function) are numbered in order of appearance. A
+separate assembly source code file is made for each function.
 
 Error handling
 --------------

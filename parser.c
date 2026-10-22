@@ -22,7 +22,8 @@ int main(int argc, char *argv[]) {
         char vars[52];
         int var_count = 0;
         char *name = strtok(line, " \t\r\n");
-        if (!name) continue;
+        if (!name) 
+            continue;
 
         char *colon = strtok(NULL, " \t\r\n");
         if (!colon || strcmp(colon, ":") != 0) {
@@ -135,6 +136,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    fclose(in);
+    fclose(in); 
     return 0;
 }
