@@ -6,8 +6,10 @@
 #include <ctype.h>
 
 int main(int argc, char *argv[]) {
-    if (argc < 2)
+    if (argc < 2) {
+        fprintf(stderr, "Not enough arguments\n");
         return 1;
+    }
 
     FILE *in = fopen(argv[1], "r");
     if (!in) {
@@ -17,12 +19,12 @@ int main(int argc, char *argv[]) {
 
     char line[1024];
     while (fgets(line, sizeof line, in)) {
-        char vars[26];
+        char vars[52];
         int var_count = 0;
-        char *name = strtok(line, " \t\n");
+        char *name = strtok(line, " \t\r\n");
         if (!name) continue;
 
-        char *colon = strtok(NULL, " \t\n");
+        char *colon = strtok(NULL, " \t\r\n");
         if (!colon || strcmp(colon, ":") != 0) {
             fprintf(stderr, "%s is not valid\n", name);
             continue;
@@ -43,7 +45,7 @@ int main(int argc, char *argv[]) {
         fprintf(out, "movl %%esp, %%ebp\n");
 
         char *tok;
-        while ((tok = strtok(NULL, " \t\n")) != NULL) {
+        while ((tok = strtok(NULL, " \t\r\n")) != NULL) {
             if (isdigit((uint8_t)tok[0]) || 
                         (tok[0] == '-' && isdigit((uint8_t)tok[1]))) {
                 
