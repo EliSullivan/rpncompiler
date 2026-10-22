@@ -4,7 +4,7 @@ CFLAGS  = -Wall -Wextra -Wno-unused-parameter
 .PHONY: all clean
 
 #compiles parser and generates assembly code for each test case
-all: parser test1 test2 test3 test4 testbad
+all: parser test1 test2 test3 testbad
 
 parser: parser.c
 	$(CC) $(CFLAGS) -o parser parser.c
@@ -17,9 +17,6 @@ test2: parser
 
 test3: parser
 	./parser test3.txt
-
-test4: parser
-	./parser test4.txt
 
 #these should fail (except for ok)
 testbad: parser

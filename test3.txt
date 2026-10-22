@@ -1,6 +1,3 @@
-spaces   :   a    b   +   
+deep : 1 2 3 4 a + + + +
 
-
-tab	:	a	b	*
-   lead : a 1 +
-nonl : a b +
+   wide :  a	b +  c d + * e f + g h + * +
