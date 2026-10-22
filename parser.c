@@ -46,6 +46,18 @@ int main(int argc, char *argv[]) {
         while ((tok = strtok(NULL, " \t\n")) != NULL) {
             if (isdigit((uint8_t)tok[0]) || 
                         (tok[0] == '-' && isdigit((uint8_t)tok[1]))) {
+                
+                //makes sure it's a valid number
+                int counter = 0;
+                while (tok[counter] != '\0') {
+                    if (isalpha((uint8_t)tok[counter])) {
+                        fprintf(stderr, "%s is not valid\n", name);
+                        failed = true;
+                        break;
+                    }
+                    counter++;
+                }
+
                 fprintf(out, "pushl $%s\n", tok);
                 depth++;
             } else if (tok[1] == '\0' && strchr("+-*/", tok[0])) {
